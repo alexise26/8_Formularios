@@ -1,0 +1,123 @@
+<h4>Formularios <small>data</small></h4>
+<hr>
+<!-- Se asigna este form a la variable local forma de tipo FormGroup -->
+<form [formGroup]="forma" (ngSubmit)="guardarCambios()" >
+
+ <!-- Se agrega en caso de que existan objetos dentro de objetos -->
+  <div formGroupName="nombrecompleto">
+
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Nombre</label>
+      <div class="col-8">
+
+        <input class="form-control"
+                [ngClass]="{'is-invalid': !forma.get('nombrecompleto.nombre').valid && forma.get('nombrecompleto.nombre').touched,'is-valid': forma.get('nombrecompleto.nombre').valid }"
+               type="text"
+               placeholder="Nombre"
+               formControlName="nombre"
+               >
+               <div *ngIf="forma.get('nombrecompleto.nombre').errors?.required"  class="invalid-feedback">
+                 Este campo es requerido
+               </div>
+               <div *ngIf="forma.get('nombrecompleto.nombre').errors?.minlength"  class="invalid-feedback">
+                 Este campo debe contener más de 3 caracteres
+               </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Apellido</label>
+      <div class="col-8">
+
+        <input class="form-control"
+              [ngClass]="{'is-invalid': !forma.get('nombrecompleto.apellido').valid && forma.get('nombrecompleto.apellido').touched,'is-valid': forma.get('nombrecompleto.apellido').valid }"
+               type="text"
+               placeholder="Apellido"
+               formControlName="apellido">
+               <div *ngIf="forma.get('nombrecompleto.apellido').errors?.required"  class="invalid-feedback">
+                 Este campo es requerido
+               </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Correo</label>
+    <div class="col-md-8">
+
+
+      <input class="form-control"
+            [ngClass]="{'is-invalid': !forma.get('email').valid && forma.get('email').touched,'is-valid': forma.get('email').valid }"
+             type="email"
+             placeholder="Correo electrónico"
+             formControlName="email">
+             <div *ngIf="forma.controls['email'].errors?.required"  class="invalid-feedback">
+               Este campo es requerido
+             </div>
+             <div *ngIf="forma.controls['email'].errors?.pattern"  class="invalid-feedback">
+               No es un formato de correo válido
+             </div>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Username</label>
+    <div class="col-md-8" >
+
+      <input
+            class="form-control"
+            type="text"
+            placeholder="Username"
+            formControlName = "username">
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Password</label>
+    <div class="col-md-8" >
+
+      <input
+            class="form-control"
+            type="password"
+            placeholder="Password"
+            formControlName = "password1">
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Repetir password</label>
+    <div class="col-md-8" >
+
+      <input
+            class="form-control"
+            type="password"
+            placeholder="Password 2"
+            formControlName = "password2">
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Pasatiempos</label>
+    <div class="col-md-8" formArrayName="pasatiempos">
+
+      <input *ngFor="let pasatiempo of forma.controls['pasatiempos'].controls; let i = index"
+            class="form-control"
+            type="text"
+            [formControlName] = "i">
+    </div>
+    <button type="button" class="btn btn-primary" (click)="agregarPasatiempo()">Nuevo</button>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">&nbsp;</label>
+    <div class="input-group col-md-8">
+      <button type="submit" class="btn btn-outline-primary" [disabled]="!forma.valid">
+        Guardar
+      </button>
+    </div>
+  </div>
+
+  {{forma.valid}}
+  <br>
+  {{forma.status}}
+
+</form>
